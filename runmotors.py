@@ -2,12 +2,13 @@
 from ev3dev.ev3 import *
 from time import sleep
 
-m1 = LargeMotor('outA')
-m2 = LargeMotor('outD')
+rightMotor = LargeMotor('outA')
+leftMotor = LargeMotor('outD')
 
-m1.run_forever(speed_sp=900)
-m2.run_forever(speed_sp=900)
+
+rightMotor.run_forever(speed_sp=900)
+leftMotor.run_forever(speed_sp=900)
 time.sleep(7)
 
-m1.stop()
-m2.stop()
+rightMotor.stop(stop_action='brake')
+leftMotor.stop(stop_action='brake')
