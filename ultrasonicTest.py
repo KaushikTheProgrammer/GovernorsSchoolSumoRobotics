@@ -3,7 +3,8 @@
 from ev3dev.ev3 import *
 
 
-ultrasonicSensor = UltrasonicSensor('in3')
+ultrasonicSensor = UltrasonicSensor()
 ultrasonicSensor.mode = 'US-DIST-CM'
 
-print(ultrasonicSensor.distance_centimeters)
+while True:
+    print(ultrasonicSensor.distance_centimeters)
