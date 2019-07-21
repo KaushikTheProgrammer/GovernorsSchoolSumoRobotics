@@ -29,12 +29,12 @@ def rotateRight(encoderCount):
 
 while True:
     val = backLight.value()
-    if val >= 6:
+    if val >= 4:
         # Rotate robot at random number of degrees
-        leftMotor.run_to_rel_pos(position_sp=-150, speed_sp=150, stop_action='hold')
-        rightMotor.run_to_rel_pos(position_sp=-150, speed_sp=150, stop_action='hold')
-        rightMotor.wait_until_not_moving()
+        leftMotor.run_to_rel_pos(position_sp=-200, speed_sp=150, stop_action='hold')
+        rightMotor.run_to_rel_pos(position_sp=-200, speed_sp=150, stop_action='hold')
         leftMotor.wait_until_not_moving()
+        rightMotor.wait_until_not_moving()
         rotateRight(175)
     else:
         # Move straight
@@ -42,24 +42,35 @@ while True:
             rightMotor.run_forever(speed_sp=900)
             leftMotor.run_forever(speed_sp=900)
         else:
-            rightMotor.run_forever(speed_sp=400)
-            leftMotor.run_forever(speed_sp=400)
+            rightMotor.run_forever(speed_sp=300)
+            leftMotor.run_forever(speed_sp=300)
             
-            if rotation.position > 126:
+            if rotationMotor.position > 126:
                 direction = False
-            elif rotation.position < -126:
+            elif rotationMotor.position < -126:
                 direction = True
             
             if not direction:
-                rotation.run_to_rel_pos(position_sp=-10, speed_sp=100, stop_action='hold')
-                rotation.wait_until_not_moving()
+                rotationMotor.run_to_rel_pos(position_sp=-20, speed_sp=150, stop_action='hold')
+                rotationMotor.wait_until_not_moving()
 
             else:
-                rotation.run_to_rel_pos(position_sp=10, speed_sp=100, stop_action='hold')
-                rotation.wait_until_not_moving()
+                rotationMotor.run_to_rel_pos(position_sp=20, speed_sp=150, stop_action='hold')
+                rotationMotor.wait_until_not_moving()
             
             targetDistance = ultrasonicSensor.distance_centimeters
 
             if targetDistance < 35:
                 
+                encoderPos = int(((rotationMotor.position * 5) / 7) * 1.389)
+                rightMotor.run_to_rel_pos(position_sp=-encoderPos, speed_sp=100, stop_action='hold')
+                leftMotor.run_to_rel_pos(position_sp=encoderPos, speed_sp=100, stop_action='hold')
+                rightMotor.wait_until_not_moving()
+                leftMotor.wait_until_not_moving()
+
+                rightMotor.run_timed(time_sp=1, speed_sp=900, stop_action='hold')
+                leftMotor.run_timed(time_sp=1, speed_sp=900, stop_action='hold')
+
+
+
 
