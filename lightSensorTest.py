@@ -2,10 +2,12 @@
 from ev3dev.ev3 import *
 
 
-#frontLight = LightSensor('in1')
+#frontLight = LightSensor()
 
 backLight = ColorSensor()
+backLight.mode = 'COL-REFLECT'
 
 while True:
-    print("back", backLight.color)
+    print(backLight.value())
+    #print("back", backLight.color)
     #print("front", frontLight.reflected_light_intensity, "back", backLight.color)

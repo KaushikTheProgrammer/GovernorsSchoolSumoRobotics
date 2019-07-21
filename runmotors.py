@@ -4,11 +4,21 @@ from time import sleep
 
 rightMotor = LargeMotor('outA')
 leftMotor = LargeMotor('outD')
+rotation = MediumMotor('outB')
 
+direction = False
 
-rightMotor.run_forever(speed_sp=900)
-leftMotor.run_forever(speed_sp=900)
-time.sleep(7)
-
-rightMotor.stop(stop_action='brake')
-leftMotor.stop(stop_action='brake')
+rotation.reset()
+while True:
+    print(rotation.position)
+    if rotation.position > 126:
+        direction = False
+    elif rotation.position < -126:
+        direction = True
+    
+    if not direction:
+        rotation.run_to_rel_pos(position_sp=-10, speed_sp=100, stop_action='hold')
+        rotation.wait_until_not_moving()
+    else:
+        rotation.run_to_rel_pos(position_sp=10, speed_sp=100, stop_action='hold')
+        rotation.wait_until_not_moving()
