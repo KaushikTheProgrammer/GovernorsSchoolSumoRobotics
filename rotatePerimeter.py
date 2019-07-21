@@ -15,17 +15,17 @@ touchSensor = TouchSensor()
 ultrasonicSensor = UltrasonicSensor()
 ultrasonicSensor.mode = 'US-DIST-CM'
 
+rotationMotor.reset()
+
+direction = False
+targetDistance = 0
+
 def rotateRight(encoderCount):
     leftMotor.run_to_rel_pos(position_sp=-encoderCount, speed_sp=200, stop_action='hold')
     rightMotor.run_to_rel_pos(position_sp=encoderCount, speed_sp=200, stop_action='hold')
     rightMotor.wait_until_not_moving()
     leftMotor.wait_until_not_moving()
 
-def moveStraight():
-    rightMotor.run_forever(speed_sp=200)
-    leftMotor.run_forever(speed_sp=200)
-    rightMotor.wait_until_not_moving()
-    leftMotor.wait_until_not_moving()
 
 while True:
     val = backLight.value()
@@ -45,7 +45,21 @@ while True:
             rightMotor.run_forever(speed_sp=400)
             leftMotor.run_forever(speed_sp=400)
             
-            rotationMotor.run_to_rel_pos(position_sp=5, speed_sp=100, stop_action='hold')
-            dist = ultrasonicSensor.distance_centimeters
-            if dist < 35:
+            if rotation.position > 126:
+                direction = False
+            elif rotation.position < -126:
+                direction = True
+            
+            if not direction:
+                rotation.run_to_rel_pos(position_sp=-10, speed_sp=100, stop_action='hold')
+                rotation.wait_until_not_moving()
+
+            else:
+                rotation.run_to_rel_pos(position_sp=10, speed_sp=100, stop_action='hold')
+                rotation.wait_until_not_moving()
+            
+            targetDistance = ultrasonicSensor.distance_centimeters
+
+            if targetDistance < 35:
+                
 
